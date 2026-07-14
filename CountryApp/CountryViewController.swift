@@ -11,14 +11,35 @@ class CountryViewController: UIViewController{
     struct Country {
         let name: String
         let imageName: String
+        let cities: [String]
     }
     
     let countries = [
-        Country(name: "Azerbaijan", imageName: "azerbaijan"),
-        Country(name: "Turkiye", imageName: "turkey"),
-        Country(name: "France", imageName: "france"),
-        Country(name: "Italy", imageName: "italy"),
-        Country(name: "Netherland", imageName: "netherland")
+        Country(
+            name: "Azerbaijan",
+            imageName: "azerbaijan",
+            cities: ["Baku", "Ganja", "Shusha", "Gabala"]
+        ),
+        Country(
+            name: "Turkiye",
+            imageName: "turkey",
+            cities: ["Ankara", "Istanbul", "Bursa", "Antalya"]
+        ),
+        Country(
+            name: "France",
+            imageName: "france",
+            cities: ["Paris","Lyon","Marseille", "Nice"]
+        ),
+        Country(
+            name: "Italy",
+            imageName: "italy",
+            cities: ["Rome", "Milan","Naples","Venice"]
+        ),
+        Country(
+            name: "Netherland",
+            imageName: "netherland",
+            cities: ["Amsterdam", "Utrecht","Rotterdam","Den Haag"]
+        )
         
     ]
     
@@ -29,6 +50,7 @@ class CountryViewController: UIViewController{
         view.backgroundColor = .white
         
         tableView.dataSource = self
+        tableView.delegate = self
         
         tableView.register(CountryTableViewCell.self, forCellReuseIdentifier: "CountryCell")
         
@@ -78,5 +100,14 @@ extension CountryViewController: UITableViewDataSource {
         return cell
         
         
+    }
+}
+
+extension CountryViewController: UITableViewDelegate {
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let cityVC = CityViewController()
+        cityVC.countryName = countries[indexPath.row].name
+        cityVC.cities = countries[indexPath.row].cities
+        navigationController?.pushViewController(cityVC, animated: true)
     }
 }
