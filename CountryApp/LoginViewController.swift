@@ -117,5 +117,11 @@ class LoginViewController: UIViewController {
             errorLabel.text = "Şifrə 10 simvoldan çox olmamalıdır."
             return
         }
+        
+        errorLabel.isHidden = true
+        errorLabel.text = ""
+        
+        let countryVC = CountryViewController()
+        navigationController?.pushViewController(countryVC, animated: true)
     }
 }
