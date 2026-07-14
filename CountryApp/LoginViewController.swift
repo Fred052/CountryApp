@@ -33,19 +33,21 @@ class LoginViewController: UIViewController {
         button.layer.cornerRadius = 10
         return button
     }()
-    
-    private func showAlert(title: String, message: String) {
+
+    let errorLabel: UILabel = {
+        let label = UILabel()
         
-        let alert = UIAlertController(
-            title: title,
-            message: message,
-            preferredStyle: .alert
-        )
+        label.textColor = .red
+        label.font = .systemFont(ofSize: 14)
+        label.numberOfLines = 0
+        label.textAlignment = .center
         
-        alert.addAction(UIAlertAction(title: "okey", style: .default))
+        label.isHidden = true
         
-        present(alert, animated: true)
-    }
+        label.translatesAutoresizingMaskIntoConstraints = false
+        
+        return label
+    }()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -58,6 +60,7 @@ class LoginViewController: UIViewController {
         view.addSubview(emailtextField)
         view.addSubview(passwordtextField)
         view.addSubview(loginButton)
+        view.addSubview(errorLabel)
         
         NSLayoutConstraint.activate([
             emailtextField.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 200),
@@ -74,10 +77,16 @@ class LoginViewController: UIViewController {
         ])
         
         NSLayoutConstraint.activate([
-            loginButton.topAnchor.constraint(equalTo: passwordtextField.bottomAnchor, constant: 100),
+            loginButton.topAnchor.constraint(equalTo: passwordtextField.bottomAnchor, constant: 50),
             loginButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
             loginButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20),
             loginButton.heightAnchor.constraint(equalToConstant: 50)
+        ])
+        
+        NSLayoutConstraint.activate([
+            errorLabel.topAnchor.constraint(equalTo: loginButton.bottomAnchor, constant: 10),
+            errorLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
+            errorLabel.trailingAnchor.constraint(equalToSystemSpacingAfter: view.trailingAnchor, multiplier: -20)
         ])
     }
     
@@ -86,7 +95,27 @@ class LoginViewController: UIViewController {
         let password = passwordtextField.text ?? ""
         
         if email.isEmpty {
-            showAlert(title: "Error", message: "Email cannot be empty.")
+            errorLabel.isHidden = false
+            errorLabel.text = "Zəhmət olmasa, e-poçt ünvanı daxil edin."
+            return
+        }
+        
+        if password.isEmpty {
+            errorLabel.isHidden = false
+            errorLabel.text = "Zəhmət olmasa, şifrə daxil edin."
+            return
+        }
+        
+        if password.count < 5 {
+            errorLabel.isHidden = false
+            errorLabel.text = "Şifrə 5 simvoldan az olmamalıdır."
+            return
+        }
+        
+        if password.count > 10 {
+            errorLabel.isHidden = false
+            errorLabel.text = "Şifrə 10 simvoldan çox olmamalıdır."
+            return
         }
     }
 }
