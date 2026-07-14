@@ -42,7 +42,7 @@ class LoginViewController: UIViewController {
             preferredStyle: .alert
         )
         
-        alert.addAction(UIAlertAction(title: "ok", style: .default))
+        alert.addAction(UIAlertAction(title: "okey", style: .default))
         
         present(alert, animated: true)
     }
