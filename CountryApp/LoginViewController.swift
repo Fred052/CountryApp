@@ -121,7 +121,12 @@ class LoginViewController: UIViewController {
         errorLabel.isHidden = true
         errorLabel.text = ""
         
-        let countryVC = CountryViewController()
-        navigationController?.pushViewController(countryVC, animated: true)
+        UserDefaults.standard.setValue(true, forKey: "isLoggedIn")
+        
+        if let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene,
+           let sceneDelegate = windowScene.delegate as? SceneDelegate {
+            UserDefaults.standard.set(true, forKey: "isLoggedIn")
+            sceneDelegate.setListAsRoot()
+        }
     }
 }

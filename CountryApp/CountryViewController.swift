@@ -47,6 +47,12 @@ class CountryViewController: UIViewController{
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        navigationItem.rightBarButtonItem = .init(
+            title: "LogOut",
+            style: .plain,
+            target: self,
+            action: #selector(logoutAction))
+        
         view.backgroundColor = .white
         
         tableView.dataSource = self
@@ -80,6 +86,14 @@ class CountryViewController: UIViewController{
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
+    
+    @objc private func logoutAction() {
+        if let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene,
+            let sceneDelegate = windowScene.delegate as? SceneDelegate {
+                sceneDelegate.setLoginAsRoot()
+            
+        }
+    }
     
     let tableView: UITableView = {
         let tableView = UITableView()
