@@ -15,7 +15,7 @@ class CityViewController: UIViewController {
         return tableView
     }()
     
-    var cities: [String] = []
+    var cities: [City] = []
     
     var countryName: String = ""
     
@@ -26,6 +26,7 @@ class CityViewController: UIViewController {
         view.backgroundColor = .white
         
         tableView.dataSource = self
+        tableView.delegate = self
         tableView.register(UITableViewCell.self , forCellReuseIdentifier: "CityCell")
         
         tableView.separatorStyle = .none
@@ -47,10 +48,18 @@ extension CityViewController: UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "CityCell", for: indexPath)
-        cell.textLabel?.text = cities[indexPath.row]
+        cell.textLabel?.text = cities[indexPath.row].name
         cell.textLabel?.font = .boldSystemFont(ofSize: 18)
         return cell
     }
     
     
+}
+
+extension CityViewController: UITableViewDelegate {
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let detailVC = CityDetailViewController()
+        detailVC.city = cities[indexPath.row]
+        navigationController?.pushViewController(detailVC, animated: true)
+    }
 }

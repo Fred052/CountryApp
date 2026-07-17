@@ -55,7 +55,7 @@ class CountryTableViewCell: UITableViewCell {
         ])
     }
     
-    func configure(with country: CountryViewController.Country) {
+    func configure(with country: Country) {
         countryLabel.text = country.name
         flagImageView.image = UIImage(named: country.imageName)
     }
