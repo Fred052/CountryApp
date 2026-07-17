@@ -6,7 +6,7 @@
 //
 import UIKit
 
-class LoginViewController: UIViewController {
+class LoginViewController: UIViewController, UITextFieldDelegate {
     
     let emailtextField: UITextField = {
         let textField = UITextField()
@@ -56,6 +56,15 @@ class LoginViewController: UIViewController {
         
         view.backgroundColor = .white
         
+        let tapGesture = UITapGestureRecognizer(
+            target: self,
+            action: #selector(dismissKeyboard)
+        )
+        
+        view.addGestureRecognizer(tapGesture)
+        
+        emailtextField.delegate = self
+        passwordtextField.delegate = self
         
         view.addSubview(emailtextField)
         view.addSubview(passwordtextField)
@@ -88,6 +97,10 @@ class LoginViewController: UIViewController {
             errorLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
             errorLabel.trailingAnchor.constraint(equalToSystemSpacingAfter: view.trailingAnchor, multiplier: -20)
         ])
+    }
+    
+    @objc func dismissKeyboard() {
+        view.endEditing(true)
     }
     
     @objc private func loginTapped() {
@@ -128,5 +141,14 @@ class LoginViewController: UIViewController {
             UserDefaults.standard.set(true, forKey: "isLoggedIn")
             sceneDelegate.setListAsRoot()
         }
+    }
+    
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        if textField == emailtextField {
+            passwordtextField.becomeFirstResponder()
+        } else {
+            textField.resignFirstResponder()
+        }
+        return true
     }
 }
